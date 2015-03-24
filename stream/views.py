@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -68,4 +69,7 @@ def hours_ahead(request, offset):
 
 
 def poll(request):
-    return None
+    new = request.POST['new']
+    q = Question(question_text=new, pub_date=timezone.now())
+    q.save()
+    return HttpResponseRedirect('/')
