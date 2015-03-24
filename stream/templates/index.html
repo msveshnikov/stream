@@ -1,3 +1,7 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'stream/style.css' %}"/>
+
 {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
@@ -7,3 +11,10 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+New poll
+<form action="{% url 'poll' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="new"/>
+    <input type="submit" value="Create"/>
+</form>
