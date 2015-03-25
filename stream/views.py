@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
+
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
@@ -16,7 +16,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.order_by('-pub_date')[:55]
 
 
 class DetailView(generic.DetailView):
