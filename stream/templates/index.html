@@ -1,7 +1,16 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'stream/style.css' %}"/>
-<script type="text/javascript" src="{% static 'twitter_bootstrap/js/transition.js' %}"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<h2>New poll</h2>
+<form action="{% url 'poll' %}" method="post">
+    {% csrf_token %}
+    <input type="text" placeholder="Есть чем поделиться?" name="new"/>
+    <input type="submit" class="btn btn-large btn-primary btn-primary" value="Добавить"/>
+</form>
 
 {% if latest_question_list %}
     <ul>
@@ -13,9 +22,3 @@
     <p>No polls are available.</p>
 {% endif %}
 
-New poll
-<form action="{% url 'poll' %}" method="post">
-    {% csrf_token %}
-    <input type="text" name="new"/>
-    <input type="submit" value="Create"/>
-</form>

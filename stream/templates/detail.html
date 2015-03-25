@@ -1,3 +1,8 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'stream/style.css' %}"/>
+<script type="text/javascript" src="{% static 'twitter_bootstrap/js/transition.js' %}"></script>
+
 <h1>{{ question.question_text }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
