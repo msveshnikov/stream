@@ -4,19 +4,21 @@ import datetime
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 from django.views import generic
 
 from stream.models import Question, Choice
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-class IndexView(generic.ListView):
-    template_name = 'index.html'
-    context_object_name = 'latest_question_list'
+# class IndexView(generic.ListView):
+# template_name = 'index.html'
+# context_object_name = 'latest_question_list'
+#
+#     def get_queryset(self):
+#         """Return the last five published questions."""
+#         return Question.objects.order_by('-pub_date')[:55]
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:55]
 
 
 class DetailView(generic.DetailView):
@@ -27,6 +29,21 @@ class DetailView(generic.DetailView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'results.html'
+
+
+def index(request):
+    pic_list = Question.objects.order_by('-pub_date')
+    paginator = Paginator(pic_list, 10)  # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        pics = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        pics = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        pics = paginator.page(paginator.num_pages)
+    return render_to_response('index.html', {"pics": pics})
 
 
 def vote(request, question_id):

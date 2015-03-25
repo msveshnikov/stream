@@ -1,30 +1,51 @@
 {% load staticfiles %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'stream/style.css' %}"/>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>#}
+<link rel="stylesheet" type="text/css" href="{% static 'stream/style.css' %}"/>
 
-<h2>New poll</h2>
+<h1>SISKI RULES</h1>
 <form action="{% url 'poll' %}" method="post">
     {% csrf_token %}
     <input type="text" placeholder="Есть чем поделиться?" style="width: 500px;" name="new"/>
-    <input type="submit" class="btn btn-large btn-primary btn-primary" value="Добавить"/>
+    <input type="submit" class="btn btn-large btn-primary" value="Добавить"/>
 </form>
 
-{% if latest_question_list %}
-    <ul>
-        {% for question in latest_question_list %}
-            <li><a href="{% url 'detail' question.id %}">
-                {% if question.question_text|slice:":4" == "http" %}
-                    <img src="{{ question.question_text }}">
-                {% else %}
-                    {{ question.question_text }}
-                {% endif %}
-            </a></li>
-        {% endfor %}
-    </ul>
+{% if pics %}
+
+    {% for question in pics %}
+        <a href="{% url 'detail' question.id %}">
+            {% if question.question_text|slice:":4" == "http" %}
+                <img src="{{ question.question_text }}">
+            {% else %}
+                {{ question.question_text }}
+            {% endif %}
+        </a>
+        <br><br><br>
+{#        <img src="{% static 'stream/images/divider.png' %}">#}
+        <br><br><br>
+    {% endfor %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if pics.has_previous %}
+            <a href="?page={{ pics.previous_page_number }}"><div class="btn btn-large btn-primary">previous</div></a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ pics.number }} of {{ pics.paginator.num_pages }}.
+        </span>
+
+        {% if pics.has_next %}
+            <a href="?page={{ pics.next_page_number }}"><div class="btn btn-large btn-primary">next</div></a>
+        {% endif %}
+    </span>
+    </div>
+
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
-
+<p></p>
+<img src="{% static 'stream/images/footsmall.jpg' %}">
