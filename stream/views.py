@@ -22,8 +22,8 @@ class ResultsView(generic.DetailView):
 
 
 def index(request):
-    pic_list = Question.objects.values('question_text').distinct().order_by(
-        '-pub_date')  # distinct('question_text').order_by('-pub_date')  #.values('question_text').distinct()
+    pic_list = Question.objects.order_by('-pub_date').values('question_text').distinct()
+    # distinct('question_text').order_by('-pub_date')  #.values('question_text').distinct()
     paginator = Paginator(pic_list, 10)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
