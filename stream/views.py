@@ -79,10 +79,10 @@ def poll(request):
     else:
         page = urllib.request.urlopen(a).read()  # .decode("utf-8")
         # Get the content of all the elements in the page.
-        text = bs4.BeautifulSoup(page).getText(separator=" ")
+        text = bs4.BeautifulSoup(page).find("p").getText(separator=" ")
         # Limit the content to the first 150 bytes, eliminate leading or
         # trailing whitespace.
-        snippet = text[0:150]
+        snippet = " ".join(text.split()).strip()[0:150]
         # If text was longer than this (most likely), also add '...'
         if len(text) > 150:
             snippet += "..."
