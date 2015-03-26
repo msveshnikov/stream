@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load embed_video_tags %}
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -18,20 +19,26 @@
     {% for question in pics %}
 
         {% if question.question_text|slice:":4" == "http" %}
-                <img src="{{ question.question_text }}">
+            {% if "youtube" in question.question_text or "vimeo" in question.question_text %}
+                {{ question.question_text|embed:'560x315' }}
             {% else %}
-                {{ question.question_text }}
+                <img src="{{ question.question_text }}">
             {% endif %}
+        {% else %}
+            {{ question.question_text }}
+        {% endif %}
 
         <br><br><br>
-{#        <img src="{% static 'stream/images/divider.png' %}">#}
+        {#        <img src="{% static 'stream/images/divider.png' %}">#}
         <br><br><br>
     {% endfor %}
 
     <div class="pagination">
     <span class="step-links">
         {% if pics.has_previous %}
-            <a href="?page={{ pics.previous_page_number }}"><div class="btn btn-large btn-primary">previous</div></a>
+            <a href="?page={{ pics.previous_page_number }}">
+                <div class="btn btn-large btn-primary">previous</div>
+            </a>
         {% endif %}
 
         <span class="current">
@@ -39,7 +46,9 @@
         </span>
 
         {% if pics.has_next %}
-            <a href="?page={{ pics.next_page_number }}"><div class="btn btn-large btn-primary">next</div></a>
+            <a href="?page={{ pics.next_page_number }}">
+                <div class="btn btn-large btn-primary">next</div>
+            </a>
         {% endif %}
     </span>
     </div>
