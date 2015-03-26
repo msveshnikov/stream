@@ -1,9 +1,5 @@
 @import url('http://fonts.googleapis.com/css?family=Lobster');
 
-li a {
-    color: green;
-}
-
 body {
     padding: 0;
     text-align: center;
@@ -66,6 +62,7 @@ p {
     text-align: center;
     line-height: 1.5em;
     margin: 20px;
+    color: white;
 }
 
 .timestamp {
@@ -91,7 +88,7 @@ a:hover {
 }
 
 a {
-    color: #5b61ff;
+    color: white;
 }
 
 .words {

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import urllib.request
 
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -9,6 +10,7 @@ from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+import bs4
 
 from stream.models import Question, Choice
 
@@ -24,7 +26,7 @@ class ResultsView(generic.DetailView):
 
 
 def index(request):
-    pic_list = Question.objects.order_by('-pub_date').values('question_text').distinct()
+    pic_list = Question.objects.order_by('-pub_date')  # .values('question_text').distinct()
     paginator = Paginator(pic_list, 10)  # Show 10 contacts per page
     page = request.GET.get('page')
     try:
@@ -70,7 +72,20 @@ def hours_ahead(request, offset):
 
 
 def poll(request):
-    new = request.POST['new']
-    q = Question(question_text=new, pub_date=timezone.now())
+    a = request.POST['new']
+    if a[-3:] == "jpg" or a[-3:] == "gif" or \
+                    a[-3:] == "png" or a[-4:] == "jpeg" or "youtube" in a or "vimeo" in a:
+        q = Question(question_text=a, pub_date=timezone.now())
+    else:
+        page = urllib.request.urlopen(a).read()  # .decode("utf-8")
+        # Get the content of all the elements in the page.
+        text = bs4.BeautifulSoup(page).getText(separator=" ")
+        # Limit the content to the first 150 bytes, eliminate leading or
+        # trailing whitespace.
+        snippet = text[0:150]
+        # If text was longer than this (most likely), also add '...'
+        if len(text) > 150:
+            snippet += "..."
+        q = Question(question_text=a, pub_date=timezone.now(), question_desc=snippet)
     q.save()
     return HttpResponseRedirect('/')

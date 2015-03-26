@@ -22,7 +22,11 @@
             {% if "youtube" in question.question_text or "vimeo" in question.question_text %}
                 {{ question.question_text|embed:'560x315' }}
             {% else %}
-                <img src="{{ question.question_text }}">
+                {% if question.question_desc == "" %}
+                    <img src="{{ question.question_text }}">
+                {% else %}
+                    <p><a href="{{ question.question_text }}"> {{ question.question_desc }}</a></p>
+                {% endif %}
             {% endif %}
         {% else %}
             {{ question.question_text }}
