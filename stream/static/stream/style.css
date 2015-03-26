@@ -1,3 +1,4 @@
+@import url('http://fonts.googleapis.com/css?family=Lobster');
 
 li a {
     color: green;
@@ -22,7 +23,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-family: 'Verdana', Times, serif;
+    font-family: 'Lobster', Times, serif;
     font-size: 4em;
     margin-bottom: 30px;
     text-align: center;

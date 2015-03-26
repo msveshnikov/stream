@@ -6,19 +6,9 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.views import generic
-
-from stream.models import Question, Choice
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
-# class IndexView(generic.ListView):
-# template_name = 'index.html'
-# context_object_name = 'latest_question_list'
-#
-#     def get_queryset(self):
-#         """Return the last five published questions."""
-#         return Question.objects.order_by('-pub_date')[:55]
-
+from stream.models import Question, Choice
 
 
 class DetailView(generic.DetailView):
@@ -32,7 +22,8 @@ class ResultsView(generic.DetailView):
 
 
 def index(request):
-    pic_list = Question.objects.order_by('-pub_date')
+    pic_list = Question.objects.values('question_text').distinct().order_by(
+        '-pub_date')  # distinct('question_text').order_by('-pub_date')  #.values('question_text').distinct()
     paginator = Paginator(pic_list, 10)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
