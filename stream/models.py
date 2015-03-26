@@ -35,8 +35,8 @@ class Import(object):
             try:
                 a = re.search("(?P<url>https?://[^\s]+)", item).group("url")
                 a = a.lower()
-                if a[-3:] == "jpg" or a[-3:] == "gif" or a[-3:] == "png" or a[
-                                                                            -4:] == "jpeg" or "youtube" in a or "vimeo" in a:
+                if a[-3:] == "jpg" or a[-3:] == "gif" or \
+                                a[-3:] == "png" or a[-4:] == "jpeg" or "youtube" in a or "vimeo" in a:
                     print(a)
                     if Question.objects.filter(question_text=a).first() is None:
                         q = Question(question_text=a, pub_date=timezone.now())

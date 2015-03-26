@@ -3,10 +3,12 @@ import datetime
 
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
+from django.template import RequestContext, loader
 
 from stream.models import Question, Choice
 
@@ -33,7 +35,9 @@ def index(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         pics = paginator.page(paginator.num_pages)
-    return render_to_response('index.html', {"pics": pics})
+    template = loader.get_template('index.html')
+    context = RequestContext(request, {'pics': pics})
+    return HttpResponse(template.render(context))
 
 
 def vote(request, question_id):
