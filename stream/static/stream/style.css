@@ -6,12 +6,14 @@ li a {
 
 body {
     padding: 0;
+    text-align: center;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
-    max-width: 885px;
+    max-width: 985px;
     margin: 0 auto !important;
     float: none !important;
-    background: white url("images/footsmall.jpg") repeat-x right bottom;
+    background: url(images/bg.jpg) repeat #1842ba;
+    color: #e8dbec;
 }
 
 /* typography */
@@ -53,9 +55,15 @@ h4 {
     line-height: 2.5;
 }
 
+.pagination {
+    font-size: 28px;
+    font-weight: normal;
+    color: white;
+}
+
 p {
     font-size: 1.0em;
-    text-align: justify;
+    text-align: center;
     line-height: 1.5em;
     margin: 20px;
 }
