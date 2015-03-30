@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-import urllib.request
+#import urllib.request
 
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -10,7 +10,7 @@ from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-import bs4
+#import bs4
 
 from stream.models import Question, Choice
 
